@@ -1,0 +1,41 @@
+{
+    "name": "niemand-online/heptaconnect-portal-nasa-apod",
+    "type": "library",
+    "description": "HEPTAconnect portal to connect to api.nasa.gov to lookup Astronomy Picture of the Day",
+    "keywords": [
+        "heptaconnect-portal",
+        "apod",
+        "nasa"
+    ],
+    "license": [
+        "AGPL-3.0-or-later"
+    ],
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "niemand.online",
+            "homepage": "https://niemand.online"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "psr/http-client": ">=1",
+        "psr/http-message": ">=1",
+        "heptacom/heptaconnect-dataset-ecommerce": ">=0.0.1",
+        "heptacom/heptaconnect-portal-base": ">=0.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "NiemandOnline\\HeptaConnect\\Portal\\NasaApod\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "heptaconnect": {
+            "portals": [
+                "NiemandOnline\\HeptaConnect\\Portal\\NasaApod\\Portal"
+            ]
+        }
+    }
+}
