@@ -10,7 +10,7 @@
     "license": [
         "AGPL-3.0-or-later"
     ],
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "niemand.online",
@@ -23,7 +23,7 @@
         "psr/http-client": ">=1",
         "psr/http-message": ">=1",
         "heptacom/heptaconnect-dataset-ecommerce": ">=0.0.1",
-        "heptacom/heptaconnect-portal-base": ">=0.0.1"
+        "heptacom/heptaconnect-portal-base": ">=0.2"
     },
     "autoload": {
         "psr-4": {

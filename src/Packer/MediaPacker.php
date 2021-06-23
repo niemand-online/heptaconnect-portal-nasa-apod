@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace NiemandOnline\HeptaConnect\Portal\NasaApod\Packer;
 
-use Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry;
 use Heptacom\HeptaConnect\Core\Storage\Struct\SerializableStream;
 use Heptacom\HeptaConnect\Dataset\Ecommerce\Media\Media;
+use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Support\NasaApodClient;
 
 class MediaPacker
 {
-    private NormalizationRegistry $normalizer;
+    private NormalizationRegistryContract $normalizer;
 
     private NasaApodClient $nasaApodClient;
 
-    public function __construct(NormalizationRegistry $normalizer, NasaApodClient $nasaApodClient)
+    public function __construct(NormalizationRegistryContract $normalizer, NasaApodClient $nasaApodClient)
     {
         $this->normalizer = $normalizer;
         $this->nasaApodClient = $nasaApodClient;
