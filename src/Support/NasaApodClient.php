@@ -6,7 +6,6 @@ namespace NiemandOnline\HeptaConnect\Portal\NasaApod\Support;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -18,19 +17,23 @@ class NasaApodClient
 
     private UriFactoryInterface $uriFactory;
 
+    private string $configApiKey;
+
     public function __construct(
         ClientInterface $client,
         RequestFactoryInterface $requestFactory,
-        UriFactoryInterface $uriFactory
+        UriFactoryInterface $uriFactory,
+        string $configApiKey
     ) {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
         $this->uriFactory = $uriFactory;
+        $this->configApiKey = $configApiKey;
     }
 
-    public function getImageOfTheDay(\DateTimeInterface $day, string $apiKey): ?array
+    public function getImageOfTheDay(\DateTimeInterface $day): ?array
     {
-        $request = $this->requestFactory->createRequest('GET', $this->getBaseUri($apiKey, [
+        $request = $this->requestFactory->createRequest('GET', $this->getBaseUri([
             'date' => $day->format('Y-m-d'),
         ]));
         $response = $this->client->sendRequest($request);
@@ -54,10 +57,10 @@ class NasaApodClient
         return $response;
     }
 
-    protected function getBaseUri(string $apiKey, array $params): UriInterface
+    protected function getBaseUri(array $params): UriInterface
     {
         return $this->uriFactory
             ->createUri('https://api.nasa.gov/planetary/apod')
-            ->withQuery(\http_build_query(['api_key' => $apiKey] + $params));
+            ->withQuery(\http_build_query(['api_key' => $this->configApiKey] + $params));
     }
 }

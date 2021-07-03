@@ -25,11 +25,10 @@ class MediaExplorer extends ExplorerContract
         $packer = $context->getContainer()->get(MediaPacker::class);
         $now = new Date();
         $oneDayInterval = new \DateInterval('P1D');
-        $config = $context->getConfig();
 
         while ($now->format('Y-m-d') >= '1995-06-16') {
             try {
-                yield $packer->pack($api->getImageOfTheDay($now, $config['api_key']));
+                yield $packer->pack($api->getImageOfTheDay($now));
             } catch (\RuntimeException $exception) {
             }
 

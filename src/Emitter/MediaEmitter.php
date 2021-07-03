@@ -25,6 +25,6 @@ class MediaEmitter extends EmitterContract
         $packer = $context->getContainer()->get(MediaPacker::class);
         $day = \date_create_from_format('Y-m-d', $externalId);
 
-        return $packer->pack($api->getImageOfTheDay($day, (string) $context->getConfig()['api_key']));
+        return $packer->pack($api->getImageOfTheDay($day));
     }
 }
