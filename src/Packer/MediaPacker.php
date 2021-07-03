@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace NiemandOnline\HeptaConnect\Portal\NasaApod\Packer;
 
-use Heptacom\HeptaConnect\Core\Storage\Struct\SerializableStream;
 use Heptacom\HeptaConnect\Dataset\Ecommerce\Media\Media;
 use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
+use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Support\NasaApodClient;
 
 class MediaPacker
