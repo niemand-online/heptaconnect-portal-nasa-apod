@@ -4,21 +4,21 @@ declare(strict_types=1);
 use Heptacom\HeptaConnect\Dataset\Base\Date;
 use Heptacom\HeptaConnect\Dataset\Ecommerce\Media\Media;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Packer\MediaPacker;
-use NiemandOnline\HeptaConnect\Portal\NasaApod\NasaApodPortal;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Support\NasaApodClient;
 use Psr\Log\LoggerInterface;
 
 FlowComponent::explorer(Media::class)
-    ->run(static function(NasaApodClient $api, MediaPacker $packer, LoggerInterface $logger, ConfigurationContract $config): iterable {
+    ->run(static function(
+        NasaApodClient $api,
+        MediaPacker $packer,
+        LoggerInterface $logger,
+        bool $configPreview,
+        int $configPreviewLimit
+    ): iterable {
         $now = new Date();
         $oneDayInterval = new \DateInterval('P1D');
-        $counter = null;
-
-        if ($config->get(NasaApodPortal::CONFIG_PREVIEW)) {
-            $counter = (int) $config->get(NasaApodPortal::CONFIG_PREVIEW_LIMIT);
-        }
+        $counter = $configPreview ? $configPreviewLimit : null;
 
         while ($now->format('Y-m-d') >= '1995-06-16') {
             try {
