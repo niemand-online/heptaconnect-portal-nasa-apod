@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Dataset\Ecommerce\Media\Media;
 use Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\ConfigurationContract;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Packer\MediaPacker;
-use NiemandOnline\HeptaConnect\Portal\NasaApod\Portal;
+use NiemandOnline\HeptaConnect\Portal\NasaApod\NasaApodPortal;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Support\NasaApodClient;
 use Psr\Log\LoggerInterface;
 
@@ -16,8 +16,8 @@ FlowComponent::explorer(Media::class)
         $oneDayInterval = new \DateInterval('P1D');
         $counter = null;
 
-        if ($config->get(Portal::CONFIG_PREVIEW)) {
-            $counter = (int) $config->get(Portal::CONFIG_PREVIEW_LIMIT);
+        if ($config->get(NasaApodPortal::CONFIG_PREVIEW)) {
+            $counter = (int) $config->get(NasaApodPortal::CONFIG_PREVIEW_LIMIT);
         }
 
         while ($now->format('Y-m-d') >= '1995-06-16') {

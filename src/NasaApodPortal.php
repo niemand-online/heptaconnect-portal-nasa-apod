@@ -6,7 +6,7 @@ namespace NiemandOnline\HeptaConnect\Portal\NasaApod;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Portal extends PortalContract
+class NasaApodPortal extends PortalContract
 {
     public const CONFIG_API_KEY = 'api_key';
 

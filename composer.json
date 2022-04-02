@@ -33,7 +33,7 @@
     "extra": {
         "heptaconnect": {
             "portals": [
-                "NiemandOnline\\HeptaConnect\\Portal\\NasaApod\\Portal"
+                "NiemandOnline\\HeptaConnect\\Portal\\NasaApod\\NasaApodPortal"
             ]
         }
     }
