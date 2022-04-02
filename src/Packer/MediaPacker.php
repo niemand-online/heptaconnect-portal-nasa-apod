@@ -4,19 +4,18 @@ declare(strict_types=1);
 namespace NiemandOnline\HeptaConnect\Portal\NasaApod\Packer;
 
 use Heptacom\HeptaConnect\Dataset\Ecommerce\Media\Media;
-use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract;
-use Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\SerializableStream;
+use Heptacom\HeptaConnect\Portal\Base\File\FileReferenceFactoryContract;
 use NiemandOnline\HeptaConnect\Portal\NasaApod\Support\NasaApodClient;
 
 class MediaPacker
 {
-    private NormalizationRegistryContract $normalizer;
+    private FileReferenceFactoryContract $fileReferenceFactory;
 
     private NasaApodClient $nasaApodClient;
 
-    public function __construct(NormalizationRegistryContract $normalizer, NasaApodClient $nasaApodClient)
+    public function __construct(FileReferenceFactoryContract $fileReferenceFactory, NasaApodClient $nasaApodClient)
     {
-        $this->normalizer = $normalizer;
+        $this->fileReferenceFactory = $fileReferenceFactory;
         $this->nasaApodClient = $nasaApodClient;
     }
 
@@ -38,22 +37,13 @@ class MediaPacker
             throw new \RuntimeException('The APOD entry has no valid image URL');
         }
 
-        $imageResponse = $this->nasaApodClient->getImage($imageUrl);
-
-        if ($imageResponse === null) {
-            throw new \RuntimeException('The APOD entry has no valid image');
-        }
-
-        $stream = new SerializableStream($imageResponse->getBody());
-        $normalizer = $this->normalizer->getNormalizer($stream);
-
+        $imageRequest = $this->nasaApodClient->getImageRequest($imageUrl);
+        $imageMimeType = $this->nasaApodClient->getImageMimeType($imageUrl);
         $result = new Media();
 
         $result->setPrimaryKey($date);
-        $result->setNormalizedStream((string) $normalizer->normalize($stream, null, [
-            'mediaId' => $result->getPrimaryKey(),
-        ]));
-        $result->setMimeType($imageResponse->getHeaderLine('Content-Type'));
+        $result->setFile($this->fileReferenceFactory->fromRequest($imageRequest));
+        $result->setMimeType($imageMimeType);
         $result->getTitle()->setFallback($title ?? $explanation ?? $copyright);
 
         return $result;

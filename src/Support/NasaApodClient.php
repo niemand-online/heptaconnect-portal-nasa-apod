@@ -5,7 +5,7 @@ namespace NiemandOnline\HeptaConnect\Portal\NasaApod\Support;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -45,16 +45,16 @@ class NasaApodClient
         return (array) \json_decode($response->getBody()->getContents(), true, 512, \JSON_THROW_ON_ERROR);
     }
 
-    public function getImage(string $url): ?ResponseInterface
+    public function getImageRequest(string $url): ?RequestInterface
     {
-        $request = $this->requestFactory->createRequest('GET', $this->uriFactory->createUri($url));
-        $response = $this->client->sendRequest($request);
+        return $this->requestFactory->createRequest('GET', $this->uriFactory->createUri($url));
+    }
 
-        if ($response->getStatusCode() < 200 || 300 <= $response->getStatusCode()) {
-            return null;
-        }
+    public function getImageMimeType(string $url): ?string
+    {
+        $request = $this->requestFactory->createRequest('HEAD', $this->uriFactory->createUri($url));
 
-        return $response;
+        return $this->client->sendRequest($request)->getHeaderLine('Content-Type') ?: null;
     }
 
     protected function getBaseUri(array $params): UriInterface
